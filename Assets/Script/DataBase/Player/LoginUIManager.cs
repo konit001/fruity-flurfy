@@ -2,21 +2,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 public class LoginUIManager : MonoBehaviour
 {
-    private PlayerRepository playerRepo;
-    private SaveRepository saveRepo;
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private TMP_Text statusText;
     [SerializeField] private GameObject LoginPage;
     [SerializeField] private GameObject StartPage;
-    private int loggedInPlayerId = -1;
+
+    private PlayerRepository playerRepo;
+    private SaveRepository saveRepo;
 
     void Awake()
     {
-        LoginPage.SetActive(false);
-        StartPage.SetActive(true);
+        if (LoginPage != null) LoginPage.SetActive(false);
+        if (StartPage != null) StartPage.SetActive(true);
     }
 
     void Start()
@@ -28,68 +27,78 @@ public class LoginUIManager : MonoBehaviour
 
     public void OnRegister()
     {
-        string name = nameInput.text.Trim();
+        string name = ReadName();
         if (string.IsNullOrEmpty(name))
         {
-            statusText.text = "Pls Fill Your name";
+            SetStatus("Pls Fill Your name");
             return;
         }
 
-        var existing = playerRepo.GetByName(name);
-        if (existing != null)
+        if (playerRepo.GetByName(name) != null)
         {
-            Debug.Log("This username exists!!!");
-            statusText.text = "Username already exists. Use Login instead.";
+            SetStatus("Username already exists. Use Login instead.");
             return;
         }
 
-        Player player = playerRepo.AddPlayer(name);
-        statusText.text = "Registered & logged in as " + name;
+        Players player = playerRepo.AddPlayer(name);
         GameSession.PlayerId = player.Id;
-        loggedInPlayerId = player.Id;
+        SetStatus("Registered & logged in as " + name);
+        EnterGame(player.Id);
     }
 
     public void OnLogIn()
     {
-        string username = nameInput.text.Trim();
-        if (string.IsNullOrEmpty(username)) return; // If input string is null
-
-        var player = playerRepo.GetByName(username);
-        // Check log in information
-        if (player == null)
+        string name = ReadName();
+        if (string.IsNullOrEmpty(name))
         {
-            statusText.text = "Username doesn't exist. Please Register.";
+            SetStatus("Pls Fill Your name");
             return;
         }
 
-        statusText.text = "Logged in as " + username;
-        loggedInPlayerId = player.Id;
-        GameSession.PlayerId = player.Id;  //loggedInPlayerId
-        Debug.Log("Player ID: " + loggedInPlayerId);
+        Players player = playerRepo.GetByName(name);
+        if (player == null)
+        {
+            SetStatus("Username doesn't exist. Please Register.");
+            return;
+        }
 
-        if (loggedInPlayerId > 0) EnterGame(loggedInPlayerId);
+        GameSession.PlayerId = player.Id;
+        SetStatus("Logged in as " + name);
+        EnterGame(player.Id);
     }
 
-    // เช็คว่า player คนนี้เคยมี save ไว้ไหม ถ้ามีให้กลับไป scene/ตำแหน่งที่เซฟไว้ ถ้าไม่มีให้เริ่มที่ Hub
+    // ปุ่ม Play ในหน้าแรก — ไปหน้า Login (ถ้าซีนไม่มีหน้า Login จะเข้าเกมแบบไม่เซฟ)
+    public void OnPlayGame()
+    {
+        if (LoginPage == null)
+        {
+            SceneManager.LoadScene(GameSession.GameScene);
+            return;
+        }
+
+        LoginPage.SetActive(true);
+        if (StartPage != null) StartPage.SetActive(false);
+    }
+
+    // มี save เดิมให้เข้าซีนที่เซฟไว้ ถ้าไม่มีเริ่มที่ซีนเกมหลัก
     private void EnterGame(int playerId)
     {
-        var save = saveRepo.Load(playerId);
-        string sceneName = save != null ? save.SceneName : "Hub";
+        SaveData save = saveRepo.Load(playerId);
+        string sceneName = save != null ? save.SceneName : null;
 
-        if (string.IsNullOrEmpty(sceneName))
-            sceneName = "Hub";
-
-        Debug.Log(save != null
-            ? $"EnterGame: พบ save เดิม -> โหลด scene {sceneName}"
-            : "EnterGame: ไม่มี save เดิม -> เริ่มที่ Hub");
+        if (string.IsNullOrEmpty(sceneName) || !Application.CanStreamedLevelBeLoaded(sceneName))
+            sceneName = GameSession.GameScene;
 
         SceneManager.LoadScene(sceneName);
     }
 
-    public void OnPlayGame()
+    private string ReadName()
     {
-        LoginPage.SetActive(true);
-        StartPage.SetActive(false);
+        return nameInput != null ? nameInput.text.Trim() : "";
     }
 
+    private void SetStatus(string message)
+    {
+        if (statusText != null) statusText.text = message;
+    }
 }

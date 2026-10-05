@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 006286823bdbc854f99a5e5d13c94125, type: 3}
+  m_Name: Material_Fruit
+  m_EditorClassIdentifier: 
+  id: fruit
+  _Name: Golden Fruit
+  category: 1
+  _Price: 60
+  _Icon: {fileID: 0}
+  _Description: "Max Health +2\nFire Rate +10%"
+  modifiers:
+  - stat: 6
+    value: 2
+  - stat: 1
+    value: 0.1

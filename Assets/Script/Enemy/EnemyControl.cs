@@ -50,6 +50,7 @@ public class EnemyControl : MonoBehaviour
 
     void HandleDeath()
     {
+        RunStats.Kills++;
         ItemDrop.SpawnAll(dropItems, transform.position, dropRadiusMin, dropRadiusMax);
 
         Destroy(gameObject);

@@ -1,0 +1,10 @@
+public static class GameSession
+{
+    public const string StartScene = "StartScene";
+    public const string GameScene = "Forest";
+
+    public static int PlayerId = -1;
+    public static bool IsLoggedIn => PlayerId > 0;
+
+    public static void LogOut() => PlayerId = -1;
+}

@@ -1,7 +1,5 @@
-using UnityEngine;
-using SQLite;
 using System.Linq;
-using System.Collections.Generic;
+using SQLite;
 
 public class PlayerRepository
 {
@@ -10,60 +8,34 @@ public class PlayerRepository
     public PlayerRepository(SQLiteConnection connection)
     {
         db = connection;
-        db.CreateTable<Player>();
+        db.CreateTable<Players>();
     }
 
-    public Player AddPlayer(string playerName)
+    public Players AddPlayer(string name)
     {
-        var player = new Player { Name = playerName };
+        var player = new Players { Name = name };
         db.Insert(player);
         return player;
     }
 
-    public List<Player> GetAllPlayers()
+    public Players GetByName(string name)
     {
-        return db.Query<Player>("SELECT * FROM Players");
+        return db.Table<Players>().Where(p => p.Name == name).FirstOrDefault();
     }
 
-    public void DeleteAll()
+    public Players GetById(int id)
     {
-        db.DeleteAll<Player>();
+        return db.Find<Players>(id);
     }
 
-    public Player GetByName(string name)
+    // อัปเดตเวฟกับทองตอนเซฟ
+    public void UpdateProgress(int id, int wave, int gold)
     {
-        return db.Query<Player>("SELECT * FROM Players WHERE Name = ? ORDER BY Id DESC LIMIT 1", name).FirstOrDefault();
+        db.Execute("UPDATE Players SET Wave = ?, Gold = ? WHERE Id = ?", wave, gold, id);
     }
 
-    public Player GetById(int id)
+    public void AddKills(int id, int kills)
     {
-        return db.Query<Player>("SELECT * FROM Players WHERE Id = ?", id).FirstOrDefault();
+        db.Execute("UPDATE Players SET Kill = Kill + ? WHERE Id = ?", kills, id);
     }
-
-    public void Update(int id, int gold, int wave, int level)
-    {
-        db.Execute("UPDATE Players SET Gold = ?, Wave = ? , Level = ? WHERE Id = ?", gold, wave, level, id);
-    }
-
-    public void UpdateGold(int id, int gold)
-    {
-        db.Execute("UPDATE Players SET Gold = ? WHERE Id = ?", gold, id);
-    }
-
-    public void UpdateLevel(int id, int level)
-    {
-        db.Execute("UPDATE Players SET Level = ? WHERE Id = ?", level, id);
-    }
-
-    public void UpdateWave(int id, int wave)
-    {
-        db.Execute("UPDATE Players SET Wave = ? WHERE Id = ?", wave, id);
-    }
-
-    public void UpdateKill(int id, int kill)
-    {
-        db.Execute("UPDATE Players SET Kill = ? WHERE Id = ?", kill, id);
-    }
-
-
 }

@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class WaveManager : MonoBehaviour
 {
-    public static int TotalWave = 1;
-
     [Header("Wave")]
     [SerializeField] private float waveDuration = 60f;
     [SerializeField] private float durationPerWave = 10f;     // เวฟต่อไปนานขึ้นเท่านี้
@@ -23,6 +21,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private ShopManager shopManager;
 
     private int wave;
+    public int CurrentWave => wave;
     private float remaining;
     private bool counting;
     private bool firstStart;
@@ -33,7 +32,6 @@ public class WaveManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
-        TotalWave = 1;
 
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         playerHealth.OnDeath += OnPlayerDeath;
@@ -41,10 +39,11 @@ public class WaveManager : MonoBehaviour
         baseSpawnInterval = spawner.interval;
         baseMaxEnemies = spawner.maxEnemies;
 
-        wave = Mathf.Max(TotalWave, 1) - 1; // StartWave() ถัดไปจะเริ่มที่เวฟที่เซฟไว้
+        wave = GameSaver.GetSavedWave() - 1; // StartWave() ถัดไปจะเริ่มที่เวฟที่เซฟไว้ (ไม่มีเซฟ = เวฟ 1)
         firstStart = true;
         StartWave();
         firstStart = false;
+        BeginWave();
     }
 
     void OnDestroy()
@@ -70,8 +69,6 @@ public class WaveManager : MonoBehaviour
     {
         wave++;
         RefreshWaveUI();
-
-        TotalWave = wave;
 
         if (!firstStart)
         {
@@ -105,9 +102,20 @@ public class WaveManager : MonoBehaviour
         counting = false;
         spawner.enabled = false;
         spawner.ClearEnemies();
-        // เลือก buff ฟรี → เข้าร้านอัพเกรด → NEXT WAVE (ไม่มีร้านในฉากก็ไปเวฟถัดไปเลย)
-        if (shopManager != null) buffManager.Show(() => shopManager.Open(wave, StartWave));
-        else buffManager.Show(StartWave);
+
+        // เลือก buff -> เข้าร้านค้า -> เริ่มเวฟถัดไป
+        buffManager.Show(() =>
+        {
+            if (shopManager != null) shopManager.Open(NextWave);
+            else NextWave();
+        });
+    }
+
+    void NextWave()
+    {
+        StartWave();
+        BeginWave();
+        GameSaver.SaveAtWave(wave);
     }
 
     void RefreshTimeUI()
@@ -122,11 +130,12 @@ public class WaveManager : MonoBehaviour
     {
         counting = false;
         spawner.enabled = false;
+        GameSaver.SaveOnDeath(wave);
         Invoke(nameof(RestartRun), 2f);
     }
 
     void RestartRun()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("DeadSence");
     }
 }

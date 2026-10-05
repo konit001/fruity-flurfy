@@ -21,42 +21,57 @@ public class SaveUIManager : MonoBehaviour
 
     void ShowPlayerInfo()
     {
-        // var player = playerRepo.GetById(GameSession.PlayerId); // Player's ID จาก LogIn scene
-        // if (player == null) return;
-        // playerInfoText.text = "Welcome: " + player.Name + "\nDay: " + player.Day + "\nGold: " + player.Gold;
+        if (playerInfoText == null) return;
+
+        Players player = GameSession.IsLoggedIn ? playerRepo.GetById(GameSession.PlayerId) : null;
+        SaveData save = player != null ? saveRepo.Load(player.Id) : null;
+
+        if (player == null)
+        {
+            playerInfoText.text = "Guest (not saved)";
+            return;
+        }
+
+        int wave = save != null ? save.Wave : player.Wave;
+        int gold = save != null ? save.Gold : player.Gold;
+        playerInfoText.text = "Welcome: " + player.Name + "\nWave: " + wave + "\nGold: " + gold;
     }
 
+    // เซฟเวฟปัจจุบัน + ทอง + ของที่ซื้อ + buff
     public void OnSave()
     {
-        // var player = playerRepo.GetById(GameSession.PlayerId);
-        // var playerObj = GameObject.FindGameObjectWithTag("Player");
-        // if (player == null || playerObj == null) return;
+        WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+        if (!GameSession.IsLoggedIn || waveManager == null)
+        {
+            SetStatus("Can't save here");
+            return;
+        }
 
-        // var pos = playerObj.transform.position;
-        // string sceneName = SceneManager.GetActiveScene().name;
-
-        // saveRepo.Save(GameSession.PlayerId, sceneName, player.Day, player.Gold, pos.x, pos.y, pos.z);
-        // statusText.text = $"Saved at ({pos.x:0.0}, {pos.y:0.0}, {pos.z:0.0})";
-
-        // ShowPlayerInfo();
+        GameSaver.SaveAtWave(waveManager.CurrentWave);
+        SetStatus("Saved wave " + waveManager.CurrentWave);
+        ShowPlayerInfo();
     }
 
     public void OnLoad()
     {
-        SaveData save = saveRepo.Load(GameSession.PlayerId);
+        SaveData save = GameSession.IsLoggedIn ? saveRepo.Load(GameSession.PlayerId) : null;
         if (save == null)
         {
-            statusText.text = "No saved data";
+            SetStatus("No saved data");
             return;
         }
 
-        statusText.text = $"Loaded: ({save.PosX}, {save.PosY}, {save.PosZ}) \n Day: {save.Day}\n Gold: {save.Gold}";
+        SetStatus("Saved: wave " + save.Wave + ", gold " + save.Gold);
     }
 
     public void OnLogOut()
     {
         GameSession.LogOut();
-        SceneManager.LoadScene("Hub");
+        SceneManager.LoadScene(GameSession.StartScene);
     }
 
+    private void SetStatus(string message)
+    {
+        if (statusText != null) statusText.text = message;
+    }
 }
