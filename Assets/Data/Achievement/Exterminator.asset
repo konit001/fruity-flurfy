@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: exterminator
   _Name: Exterminator
-  _Icon: {fileID: 0}
+  _Icon: {fileID: 975031801, guid: bccf62d2bce529a448170911b082c72c, type: 3}
   _Description: Defeat 12 enemies in total
   metric: 0
   target: 12

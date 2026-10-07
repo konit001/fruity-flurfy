@@ -18,7 +18,7 @@ public class AchievementRepository
         return db.Table<AchievementRow>().Where(r => r.PlayerId == playerId).ToList();
     }
 
-    // เซฟความคืบหน้า (ไม่ลดลง) — คืน true เมื่อเพิ่งปลดล็อกครั้งนี้
+    // Save
     public bool SaveProgress(int playerId, string achievementId, int progress, int target)
     {
         var row = db.Table<AchievementRow>()

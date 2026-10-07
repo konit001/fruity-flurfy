@@ -3,28 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// ตรวจ/ปลดล็อก achievement จากสถิติใน DB — ไม่เกี่ยวกับ UI (UI ฟัง OnUnlocked เอา)
-// นิยาม achievement (AchievementData ใน Assets/Data/Achievement/) รับมาจาก AchievementUI.achievements ผ่าน SetCatalog
-// ซีนเกมต้องมี AchievementUI ที่ใส่รายการแล้ว ไม่งั้นไม่มี achievement ให้ตรวจ
 public static class AchievementTracker
 {
-    // ปลดล็อกใหม่ — AchievementUI ฟังเพื่อเด้งป๊อปอัพ
     public static event Action<AchievementData> OnUnlocked;
-
-    // ปลดล็อกใหม่ตั้งแต่ครั้งล่าสุดที่โชว์รายการ — ใช้ติดป้าย NEW (static อยู่ข้ามซีน)
     public static readonly List<AchievementData> JustUnlocked = new List<AchievementData>();
-
     private static List<AchievementData> catalog = new List<AchievementData>();
-
     public static IReadOnlyList<AchievementData> Catalog => catalog;
-
-    // AchievementUI ส่งรายการที่ลากไว้ใน Inspector มาให้ตอน Awake (จำไว้ข้ามซีน)
+    
     public static void SetCatalog(IEnumerable<AchievementData> list)
     {
         catalog = list.Where(a => a != null).ToList();
     }
 
-    // อ่านสถิติตลอดกาลจากตารางอื่น แล้วอัปเดตความคืบหน้าทุก achievement
+    public static void EvaluateKills()
+    {
+        if (!GameSession.IsLoggedIn) return;
+
+        var db = DbProvider.Connection;
+        int playerId = GameSession.PlayerId;
+        var repo = new AchievementRepository(db);
+
+        Players player = new PlayerRepository(db).GetById(playerId);
+        int kills = player?.Kill ?? 0;
+
+        foreach (AchievementData a in Catalog)
+        {
+            if (a.metric != AchievementMetric.Kills) continue;
+
+            if (repo.SaveProgress(playerId, a.id, kills, a.target))
+            {
+                JustUnlocked.Add(a);
+                OnUnlocked?.Invoke(a);
+            }
+        }
+    }
+
     public static void Evaluate(int waveReached)
     {
         if (!GameSession.IsLoggedIn) return;
@@ -34,9 +47,9 @@ public static class AchievementTracker
         var repo = new AchievementRepository(db);
 
         Players player = new PlayerRepository(db).GetById(playerId);
-        int kills = player != null ? player.Kill : 0;
-        int items = new InventoryRepository(db).GetAll(playerId).Sum(r => r.TotalCount);
-        int buffs = new PlayerBuffRepository(db).GetAll(playerId).Sum(r => r.TotalCount);
+        int kills = player?.Kill ?? 0;
+        int items = new InventoryRepository(db).GetAll(playerId).Sum(r => r.AllRun);
+        int buffs = new PlayerBuffRepository(db).GetAllCount(playerId);
 
         foreach (AchievementData a in Catalog)
         {

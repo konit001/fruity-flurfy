@@ -32,12 +32,11 @@ public class SaveUIManager : MonoBehaviour
             return;
         }
 
-        int wave = save != null ? save.Wave : player.Wave;
-        int gold = save != null ? save.Gold : player.Gold;
+        int wave = save?.Wave ?? player.Wave;
+        int gold = save?.Gold ?? player.Gold;
         playerInfoText.text = "Welcome: " + player.Name + "\nWave: " + wave + "\nGold: " + gold;
     }
 
-    // เซฟเวฟปัจจุบัน + ทอง + ของที่ซื้อ + buff
     public void OnSave()
     {
         WaveManager waveManager = FindFirstObjectByType<WaveManager>();

@@ -112,3 +112,6 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Exceeds GitHub 100MB limit
+Assets/Plug in/Firebase/Plugins/x86_64/FirebaseCppApp-13_17_0.bundle

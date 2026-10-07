@@ -16,8 +16,8 @@ MonoBehaviour:
   _Name: Wood Plank
   category: 1
   _Price: 30
-  _Icon: {fileID: 0}
-  _Description: "Max Health +1"
+  _Icon: {fileID: 1368439847, guid: 9e7d44fb8946d7e46a1245eb711cb6a7, type: 3}
+  _Description: Max Health +1
   modifiers:
   - stat: 6
     value: 1

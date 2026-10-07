@@ -16,9 +16,8 @@ MonoBehaviour:
   _Name: Power Crystal
   category: 1
   _Price: 100
-  _Icon: {fileID: 0}
-  _Description: "Damage +1
-Bullet Speed +15%"
+  _Icon: {fileID: -1158366449, guid: 9e7d44fb8946d7e46a1245eb711cb6a7, type: 3}
+  _Description: Damage +1 Bullet Speed +15%
   modifiers:
   - stat: 0
     value: 1

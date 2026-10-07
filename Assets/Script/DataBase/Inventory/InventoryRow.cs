@@ -12,10 +12,6 @@ public class InventoryRow
 
     [Indexed("PlayerItem", 1, Unique = true), MaxLength(50)]
     public string ShopItemId { get; set; }
-
-    // จำนวนที่ถือในรอบปัจจุบัน — ตายแล้วตั้งเป็น 0 (ไม่ลบแถว)
-    public int Quantity { get; set; }
-
-    // จำนวนครั้งที่ซื้อตลอดกาล — ไม่รีเซ็ต
-    public int TotalCount { get; set; }
+    public int CurrentRun { get; set; }
+    public int AllRun { get; set; }
 }

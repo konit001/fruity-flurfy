@@ -11,7 +11,6 @@ public class SaveRepository
         db.CreateTable<SaveData>();
     }
 
-    // ลบแถวเก่าของ player แล้ว insert แถวใหม่ (เก็บแค่เซฟล่าสุด)
     public void Save(int playerId, string sceneName, int wave, int gold)
     {
         db.RunInTransaction(() =>

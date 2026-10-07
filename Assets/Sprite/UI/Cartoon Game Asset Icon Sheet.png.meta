@@ -1,0 +1,401 @@
+fileFormatVersion: 2
+guid: 9e7d44fb8946d7e46a1245eb711cb6a7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5949404149031426723
+    second: Cartoon Game Asset Icon Sheet_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 461
+        width: 243
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d552fbf92787f6da0800000000000000
+      internalID: -5949404149031426723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 1182
+        y: 510
+        width: 338
+        height: 363
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d3240876b8709d4d968c110808cbcc2
+      internalID: 176997209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 406
+        width: 245
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75307878d558fac4e80e4aa1ac9b50a6
+      internalID: -1993944262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 510
+        width: 319
+        height: 279
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51b43f3a65160d542a33d2339137fc95
+      internalID: 2047323772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 512
+        width: 283
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad6c37efbb24a414183eac984222ebff
+      internalID: -295629152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 67
+        width: 288
+        height: 366
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5667aec23701114fb5fb38767577fb9
+      internalID: -1184251258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 24
+        width: 233
+        height: 391
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9b49352918200342a53cbe9efb8f93e
+      internalID: 1014658377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 34
+        width: 293
+        height: 398
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 976392d4fc34abb458f6f1bc4303dc44
+      internalID: -1158366449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 40
+        width: 296
+        height: 349
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4994d33f2c3fd1749af8492cc5e80660
+      internalID: 1368439847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 106
+        width: 315
+        height: 301
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9466a7dc2a7ae9443b30a1b83d1d618d
+      internalID: 2013391211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon Game Asset Icon Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 1360
+        y: 104
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3daffe11826bd1540bcf6f7618803ec7
+      internalID: -1464961210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 993d46b92e3fb5343a52e8a17a0e9fad
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Cartoon Game Asset Icon Sheet_0: -5949404149031426723
+      Cartoon Game Asset Icon Sheet_1: -578440668
+      Cartoon Game Asset Icon Sheet_10: -1231926531
+      Cartoon Game Asset Icon Sheet_11: -747913287
+      Cartoon Game Asset Icon Sheet_12: -1993944262
+      Cartoon Game Asset Icon Sheet_13: 2047323772
+      Cartoon Game Asset Icon Sheet_14: -295629152
+      Cartoon Game Asset Icon Sheet_15: -1764519593
+      Cartoon Game Asset Icon Sheet_16: -1184251258
+      Cartoon Game Asset Icon Sheet_17: 1014658377
+      Cartoon Game Asset Icon Sheet_18: -1158366449
+      Cartoon Game Asset Icon Sheet_19: 1368439847
+      Cartoon Game Asset Icon Sheet_2: 1764926942
+      Cartoon Game Asset Icon Sheet_20: 2013391211
+      Cartoon Game Asset Icon Sheet_21: -633392057
+      Cartoon Game Asset Icon Sheet_22: -1464961210
+      Cartoon Game Asset Icon Sheet_23: 1979755560
+      Cartoon Game Asset Icon Sheet_3: -1090235948
+      Cartoon Game Asset Icon Sheet_4: 161433476
+      Cartoon Game Asset Icon Sheet_5: -2085506712
+      Cartoon Game Asset Icon Sheet_6: -1292581460
+      Cartoon Game Asset Icon Sheet_7: -1255644330
+      Cartoon Game Asset Icon Sheet_8: 176997209
+      Cartoon Game Asset Icon Sheet_9: 1386902210
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

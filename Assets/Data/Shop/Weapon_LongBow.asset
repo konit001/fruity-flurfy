@@ -16,9 +16,8 @@ MonoBehaviour:
   _Name: Long Bow
   category: 0
   _Price: 150
-  _Icon: {fileID: 0}
-  _Description: "Range +30%
-Bullet Speed +20%"
+  _Icon: {fileID: -5949404149031426723, guid: 9e7d44fb8946d7e46a1245eb711cb6a7, type: 3}
+  _Description: Range +30% Bullet Speed +20%
   modifiers:
   - stat: 4
     value: 0.3

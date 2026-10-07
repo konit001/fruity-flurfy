@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: hunter
   _Name: Hunter
-  _Icon: {fileID: 0}
+  _Icon: {fileID: -1135202429, guid: bccf62d2bce529a448170911b082c72c, type: 3}
   _Description: Defeat 5 enemies in total
   metric: 0
   target: 5

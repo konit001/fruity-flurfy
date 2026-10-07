@@ -24,11 +24,10 @@ public class MoneyManager : MonoBehaviour
         if (amount == 0) return;
 
         gold = Mathf.Max(0, gold + amount);
-        if (amount > 0) RunStats.GoldEarned += amount;
         RefreshGoldUI(gold);
     }
 
-    // ตั้งทองตรง ๆ ตอนโหลดเซฟ (ไม่นับเป็นทองที่หาได้ในรอบ)
+    // ตั้งทองตรง ๆ ตอนโหลดเซฟ
     public void SetGold(int amount)
     {
         gold = Mathf.Max(0, amount);

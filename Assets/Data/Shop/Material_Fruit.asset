@@ -16,8 +16,10 @@ MonoBehaviour:
   _Name: Golden Fruit
   category: 1
   _Price: 60
-  _Icon: {fileID: 0}
-  _Description: "Max Health +2\nFire Rate +10%"
+  _Icon: {fileID: 2013391211, guid: 9e7d44fb8946d7e46a1245eb711cb6a7, type: 3}
+  _Description: 'Max Health +2
+
+    Fire Rate +10%'
   modifiers:
   - stat: 6
     value: 2

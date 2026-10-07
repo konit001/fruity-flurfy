@@ -1,10 +1,7 @@
 using UnityEngine;
 
-// ค่าที่ใช้วัดความคืบหน้าของ achievement (นับตลอดกาลของผู้เล่น)
 public enum AchievementMetric { Kills, BestWave, ItemsBought, BuffsPicked }
 
-// นิยาม achievement — ลากเข้า list "achievements" ของ AchievementUI
-// DB เก็บแค่ความคืบหน้า (ตาราง Achievements) ใช้ id เป็น key ห้ามแก้ id หลังใช้งาน
 [CreateAssetMenu(fileName = "AchievementData", menuName = "Achievement/AchievementData")]
 public class AchievementData : ScriptableObject
 {

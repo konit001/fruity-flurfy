@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: veteran
   _Name: Veteran
-  _Icon: {fileID: 0}
+  _Icon: {fileID: 1398865914, guid: bccf62d2bce529a448170911b082c72c, type: 3}
   _Description: Reach wave 10
   metric: 1
   target: 10

@@ -14,8 +14,8 @@ public class LoginUIManager : MonoBehaviour
 
     void Awake()
     {
-        if (LoginPage != null) LoginPage.SetActive(false);
-        if (StartPage != null) StartPage.SetActive(true);
+        if (LoginPage != null) LoginPage.SetActive(true);
+        if (StartPage != null) StartPage.SetActive(false);
     }
 
     void Start()
@@ -62,25 +62,17 @@ public class LoginUIManager : MonoBehaviour
             return;
         }
 
+        StartPage.SetActive(true);
+        LoginPage.SetActive(false);
         GameSession.PlayerId = player.Id;
-        SetStatus("Logged in as " + name);
-        EnterGame(player.Id);
+        SetStatus("Logged in as " + name);;
     }
 
-    // ปุ่ม Play ในหน้าแรก — ไปหน้า Login (ถ้าซีนไม่มีหน้า Login จะเข้าเกมแบบไม่เซฟ)
     public void OnPlayGame()
     {
-        if (LoginPage == null)
-        {
-            SceneManager.LoadScene(GameSession.GameScene);
-            return;
-        }
-
-        LoginPage.SetActive(true);
-        if (StartPage != null) StartPage.SetActive(false);
+        EnterGame(GameSession.PlayerId);
     }
 
-    // มี save เดิมให้เข้าซีนที่เซฟไว้ ถ้าไม่มีเริ่มที่ซีนเกมหลัก
     private void EnterGame(int playerId)
     {
         SaveData save = saveRepo.Load(playerId);

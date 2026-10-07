@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: shopper
   _Name: Shopper
-  _Icon: {fileID: 0}
+  _Icon: {fileID: -931372994, guid: bccf62d2bce529a448170911b082c72c, type: 3}
   _Description: Buy 2 items from the shop
   metric: 2
   target: 2

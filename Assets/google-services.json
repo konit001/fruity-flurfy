@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "107851693224",
+    "firebase_url": "https://final-f2f0a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "final-f2f0a",
+    "storage_bucket": "final-f2f0a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107851693224:android:484a6e4fb41653d20d569d",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.fruity_flurfy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQp8Edrcj-5w8n-oh8PsVqTAwpc5T_vw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

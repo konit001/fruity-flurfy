@@ -6,7 +6,6 @@ public class InventorySaveUI : MonoBehaviour
 {
     [SerializeField] private ShopManager shopManager;
     [SerializeField] private BuffManager buffManager;
-
     private InventoryRepository repo;
 
     void Awake()
@@ -14,6 +13,11 @@ public class InventorySaveUI : MonoBehaviour
         repo = new InventoryRepository(DbProvider.Connection);
         if (shopManager == null) shopManager = FindFirstObjectByType<ShopManager>();
         if (buffManager == null) buffManager = FindFirstObjectByType<BuffManager>();
+
+        if (GameSession.IsLoggedIn && shopManager != null)
+        {
+            repo.SetupRow(GameSession.PlayerId, shopManager.items.Where(i => i != null).Select(i => i.id));
+        }
     }
 
     public void Save()
@@ -31,14 +35,13 @@ public class InventorySaveUI : MonoBehaviour
         foreach (InventoryRow row in repo.GetActive(GameSession.PlayerId))
         {
             ShopData item = shopManager.items.FirstOrDefault(i => i.id == row.ShopItemId);
-            if (item == null) continue; // ShopData ถูกลบไปแล้ว ข้ามแถวนี้
+            if (item == null) continue;
 
-            InventoryManager.Instance.Add(item, row.Quantity);
-            ApplyModifiers(item, row.Quantity);
+            InventoryManager.Instance.Add(item, row.CurrentRun);
+            ApplyModifiers(item, row.CurrentRun);
         }
     }
 
-    // ของที่ซื้อเพิ่ม stat ตอนซื้อ — โหลดกลับมาต้องใส่ stat ซ้ำตามจำนวน (Heal ไม่ใส่ เป็นผลครั้งเดียว)
     private void ApplyModifiers(ShopData item, int quantity)
     {
         if (buffManager == null) return;
@@ -52,7 +55,6 @@ public class InventorySaveUI : MonoBehaviour
         }
     }
 
-    // เริ่มรอบใหม่: ของที่ถือเป็น 0 แต่เก็บสถิติตลอดกาลไว้
     public void ResetRun()
     {
         if (GameSession.IsLoggedIn) repo.ResetRun(GameSession.PlayerId);

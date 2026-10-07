@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// จุดเรียกเซฟ/โหลดของเกม — ประสานงาน Repo + InventorySaveUI + BuffSaveUI (ไม่ login = ข้ามทั้งหมด)
 public static class GameSaver
 {
-    // เวฟที่จะเริ่มตอนเข้าซีน (ไม่มีเซฟ = 1)
     public static int GetSavedWave()
     {
         if (!GameSession.IsLoggedIn) return 1;
@@ -13,7 +11,6 @@ public static class GameSaver
         return save != null ? Mathf.Max(save.Wave, 1) : 1;
     }
 
-    // เริ่มเวฟใหม่ (หลังปิดร้าน): เซฟเวฟ + ทอง + ของที่ซื้อ + buff
     public static void SaveAtWave(int wave)
     {
         if (!GameSession.IsLoggedIn) return;
@@ -25,11 +22,9 @@ public static class GameSaver
         new SaveRepository(db).Save(GameSession.PlayerId, SceneManager.GetActiveScene().name, wave, gold);
 
         GetOrCreate<InventorySaveUI>().Save();
-        GetOrCreate<BuffSaveUI>().Save();
         AchievementTracker.Evaluate(wave);
     }
 
-    // เข้าซีนเกม: โหลดทอง + ของที่ซื้อ + buff จากเซฟ (เวฟเริ่มจาก GetSavedWave ใน WaveManager)
     public static void LoadRun()
     {
         if (!GameSession.IsLoggedIn) return;
@@ -40,35 +35,25 @@ public static class GameSaver
         if (MoneyManager.Instance != null) MoneyManager.Instance.SetGold(save.Gold);
 
         GetOrCreate<InventorySaveUI>().Load();
-        GetOrCreate<BuffSaveUI>().Load();
+        Object.FindFirstObjectByType<BuffManager>()?.Load();
     }
 
-    // ตาย: บันทึกสถิติรอบนี้ ล้างเซฟของรอบ และตั้งของ/buff ที่ถือเป็น 0 (เก็บ TotalCount ตลอดกาลไว้ ไม่ลบแถว)
     public static void SaveOnDeath(int wave)
     {
-        if (!GameSession.IsLoggedIn)
-        {
-            RunStats.Reset();
-            return;
-        }
+        if (!GameSession.IsLoggedIn) return;
 
         var db = DbProvider.Connection;
         var playerRepo = new PlayerRepository(db);
 
-        new RunHistoryRepository(db).Add(GameSession.PlayerId, wave, RunStats.Kills, RunStats.GoldEarned);
-        playerRepo.AddKills(GameSession.PlayerId, RunStats.Kills);
         playerRepo.UpdateProgress(GameSession.PlayerId, 1, 0);
 
-        // ไม่ลบแถวเซฟ — รีเซ็ตให้เริ่มรอบใหม่ที่เวฟ 1 ทอง 0
         new SaveRepository(db).Save(GameSession.PlayerId, GameSession.GameScene, 1, 0);
         GetOrCreate<InventorySaveUI>().ResetRun();
-        GetOrCreate<BuffSaveUI>().ResetRun();
+        new PlayerBuffRepository(db).ResetRun(GameSession.PlayerId);
         AchievementTracker.Evaluate(wave);
-
-        RunStats.Reset();
+        LeaderBoard.SubmitWave(playerRepo.GetById(GameSession.PlayerId).Name, wave);
     }
 
-    // หา component ในซีน ถ้าไม่มีสร้าง GameObject ใหม่ให้ (ไม่ต้องตั้งค่าในซีนเอง)
     private static T GetOrCreate<T>() where T : MonoBehaviour
     {
         T found = Object.FindFirstObjectByType<T>();

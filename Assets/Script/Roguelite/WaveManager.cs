@@ -39,7 +39,7 @@ public class WaveManager : MonoBehaviour
         baseSpawnInterval = spawner.interval;
         baseMaxEnemies = spawner.maxEnemies;
 
-        wave = GameSaver.GetSavedWave() - 1; // StartWave() ถัดไปจะเริ่มที่เวฟที่เซฟไว้ (ไม่มีเซฟ = เวฟ 1)
+        wave = GameSaver.GetSavedWave() - 1;
         firstStart = true;
         StartWave();
         firstStart = false;

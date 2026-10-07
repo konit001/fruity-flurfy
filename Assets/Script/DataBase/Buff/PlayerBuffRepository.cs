@@ -10,65 +10,86 @@ public class PlayerBuffRepository
     {
         db = connection;
         db.CreateTable<PlayerBuffRow>();
+        db.CreateTable<BuffRow>();
     }
 
-    // buff ของรอบปัจจุบัน (Quantity > 0)
-    public List<PlayerBuffRow> GetActive(int playerId)
+    //  buff table
+
+    // เพิ่ม buff ใหม่ และอัปเดตค่าของ buff เดิมให้ตรงกับ BuffData
+    public void SeedDefinitions(IEnumerable<BuffData> buffs)
     {
-        return db.Table<PlayerBuffRow>().Where(r => r.PlayerId == playerId && r.Quantity > 0).ToList();
+        Dictionary<string, BuffRow> existing = GetDefinitions();
+
+        foreach (BuffData buff in buffs)
+        {
+            if (existing.TryGetValue(buff._Name, out BuffRow row))
+            {
+                row.BuffName = buff._Name;
+                row.Stat = buff.stat;
+                row.Value = buff.value;
+                db.Update(row);
+            }
+            else
+            {
+                db.Insert(new BuffRow { BuffName = buff._Name, Stat = buff.stat, Value = buff.value });
+            }
+        }
     }
 
-    // สถิติตลอดกาล (รวมแถวที่ Quantity = 0)
-    public List<PlayerBuffRow> GetAll(int playerId)
+    // key = BuffName (ตรงกับ BuffData._Name)
+    public Dictionary<string, BuffRow> GetDefinitions()
     {
-        return db.Table<PlayerBuffRow>().Where(r => r.PlayerId == playerId).ToList();
+        return db.Table<BuffRow>().ToDictionary(r => r.BuffName);
     }
 
-    // แถวที่มีอยู่แก้ Quantity และบวก TotalCount ตามที่เลือกเพิ่มจากเซฟครั้งก่อน
-    // แถวที่ไม่อยู่ในชุดใหม่ตั้ง Quantity = 0 (ไม่ลบ)
-    public void SaveQuantities(int playerId, IEnumerable<(string BuffId, int Quantity)> entries)
+    //  PlayerBuffs table
+    public void SetupRow(int playerId, IEnumerable<BuffRow> buffs)
     {
-        var current = entries.Where(e => e.Quantity > 0).ToDictionary(e => e.BuffId, e => e.Quantity);
-
         db.RunInTransaction(() =>
         {
-            foreach (var row in GetAll(playerId))
+            var existing = db.Table<PlayerBuffRow>().Where(r => r.PlayerId == playerId).ToList()
+                .Select(r => r.BuffId).ToHashSet();
+
+            db.InsertAll(buffs.Where(b => !existing.Contains(b.BuffId)).Select(b => new PlayerBuffRow
             {
-                if (current.ContainsKey(row.BuffId)) continue;
-
-                row.Quantity = 0;
-                db.Update(row);
-            }
-
-            foreach (var pair in current)
-            {
-                var row = db.Table<PlayerBuffRow>()
-                    .Where(r => r.PlayerId == playerId && r.BuffId == pair.Key)
-                    .FirstOrDefault();
-
-                if (row == null)
-                {
-                    db.Insert(new PlayerBuffRow
-                    {
-                        PlayerId = playerId,
-                        BuffId = pair.Key,
-                        Quantity = pair.Value,
-                        TotalCount = pair.Value
-                    });
-                    continue;
-                }
-
-                int added = pair.Value - row.Quantity; // เลือกเพิ่มตั้งแต่เซฟครั้งก่อน
-                if (added > 0) row.TotalCount += added;
-                row.Quantity = pair.Value;
-                db.Update(row);
-            }
+                PlayerId = playerId,
+                BuffId = b.BuffId,
+                BuffName = b.BuffName,
+                CurrentRun = 0,
+                AllRun = 0
+            }));
         });
     }
 
-    // ตาย: buff ที่ถือเป็น 0 แต่เก็บ TotalCount ไว้
+    public void AddPick(int playerId, BuffRow buff)
+    {
+        PlayerBuffRow row = db.Table<PlayerBuffRow>()
+            .FirstOrDefault(row => row.PlayerId == playerId && row.BuffId == buff.BuffId);
+
+        if (row == null)
+        {
+            db.Insert(new PlayerBuffRow { PlayerId = playerId, BuffId = buff.BuffId, BuffName = buff.BuffName, CurrentRun = 1, AllRun = 1 });
+            return;
+        }
+
+        row.CurrentRun++;
+        row.AllRun++;
+        db.Update(row);
+    }
+
+    // buff ของรอบปัจจุบัน
+    public List<PlayerBuffRow> GetActive(int playerId)
+    {
+        return db.Table<PlayerBuffRow>().Where(row => row.PlayerId == playerId && row.CurrentRun > 0).ToList();
+    }
+
+    public int GetAllCount(int playerId)
+    {
+        return db.Table<PlayerBuffRow>().Where(row => row.PlayerId == playerId).ToList().Sum(row => row.AllRun);
+    }
+
     public void ResetRun(int playerId)
     {
-        db.Execute("UPDATE PlayerBuffs SET Quantity = 0 WHERE PlayerId = ?", playerId);
+        db.Execute("UPDATE PlayerBuffs SET CurrentRun = 0 WHERE PlayerId = ?", playerId);
     }
 }

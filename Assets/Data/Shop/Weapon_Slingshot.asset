@@ -16,8 +16,8 @@ MonoBehaviour:
   _Name: Slingshot
   category: 0
   _Price: 50
-  _Icon: {fileID: 0}
-  _Description: "Damage +1"
+  _Icon: {fileID: -1993944262, guid: 9e7d44fb8946d7e46a1245eb711cb6a7, type: 3}
+  _Description: Damage +1
   modifiers:
   - stat: 0
     value: 1

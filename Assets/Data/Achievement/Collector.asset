@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: collector
   _Name: Buff Collector
-  _Icon: {fileID: 0}
+  _Icon: {fileID: -404314809437024891, guid: bccf62d2bce529a448170911b082c72c, type: 3}
   _Description: Pick 1 buffs
   metric: 3
   target: 1

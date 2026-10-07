@@ -18,18 +18,19 @@ public class UiManager : MonoBehaviour
 
     private void UpdateUi()
     {
-        // Esc ครั้งนี้ใช้ปิดหน้า Achievement ไปแล้ว ไม่เปิดหน้าตั้งค่าซ้อน
         if (AchievementUI.EscapeHandled) return;
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame && isSetting == false)
         {
             isSetting = true;
             setting.SetActive(isSetting);
+            Time.timeScale = 0f;
         }
         else if (Keyboard.current.escapeKey.wasPressedThisFrame && isSetting == true)
         {
             isSetting = false;
             setting.SetActive(isSetting);
+            Time.timeScale = 1f;
         }
     }
 }
