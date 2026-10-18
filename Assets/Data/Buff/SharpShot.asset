@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d5f5e2e415a46418fada857716d9a0, type: 3}
   m_Name: SharpShot
   m_EditorClassIdentifier: 
-  id: sharp_shot
+  id: 5
   _Name: Sharp Shot
   _Icon: {fileID: 0}
   _Description: Damage +1

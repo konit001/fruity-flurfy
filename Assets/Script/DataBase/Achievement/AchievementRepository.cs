@@ -50,6 +50,7 @@ public class AchievementRepository
         if (!string.IsNullOrEmpty(row.UnlockedAt)) return false;
         if (row.Progress < target) return false;
 
+//ตัวกำกับเวลาว่าทำสำเร็จเมื่อไหร่
         row.UnlockedAt = DateTime.UtcNow.ToString("o");
         return true;
     }

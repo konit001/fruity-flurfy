@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d5f5e2e415a46418fada857716d9a0, type: 3}
   m_Name: FreshFruit
   m_EditorClassIdentifier: 
-  id: fresh_fruit
+  id: 2
   _Name: Fresh Fruit
   _Icon: {fileID: 0}
   _Description: Heal to full HP

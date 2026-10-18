@@ -33,4 +33,11 @@ public class UiManager : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
+
+    public void OnResume()
+    {
+        isSetting = false;
+        setting.SetActive(isSetting);
+        Time.timeScale = 1f;
+    }
 }

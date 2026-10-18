@@ -602,8 +602,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
+  m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -865,7 +865,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1440246080}
+      - m_Target: {fileID: 1440246082}
         m_TargetAssemblyTypeName: LeaderBoard, Assembly-CSharp
         m_MethodName: OnClose
         m_Mode: 1
@@ -974,8 +974,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
+  m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1457,8 +1457,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Fill your name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
+  m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1806,8 +1806,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Log in
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
+  m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2030,7 +2030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1440246081}
-  - component: {fileID: 1440246080}
+  - component: {fileID: 1440246082}
   m_Layer: 0
   m_Name: LeaderBoard
   m_TagString: Untagged
@@ -2038,21 +2038,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1440246080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1440246079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 200ae9d8ba9f4fe4d8696eb24595fc81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LeaderBoard
-  nameText: {fileID: 1852539958}
-  waveText: {fileID: 1585286571}
-  page: {fileID: 1498337422}
 --- !u!4 &1440246081
 Transform:
   m_ObjectHideFlags: 0
@@ -2068,6 +2053,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1440246082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440246079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200ae9d8ba9f4fe4d8696eb24595fc81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeaderBoard
+  nameText: {fileID: 1852539958}
+  waveText: {fileID: 1585286571}
+  page: {fileID: 1498337422}
 --- !u!1 &1440854732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,7 +2534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000 Wave
+  m_text: aaaaaaaaaaa
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
@@ -2692,8 +2692,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Register
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
+  m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2717,10 +2717,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.44
+  m_fontSize: 19.2
   m_fontSizeBase: 20.44
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -3062,7 +3062,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Player NAme '
+  m_text: aaaaaaaaaaaaa
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7662388c08c553042898e50ea658a561, type: 2}
   m_sharedMaterial: {fileID: -1574582198636613517, guid: 7662388c08c553042898e50ea658a561, type: 2}
@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1440246080}
+      - m_Target: {fileID: 1440246082}
         m_TargetAssemblyTypeName: LeaderBoard, Assembly-CSharp
         m_MethodName: OnOpen
         m_Mode: 1

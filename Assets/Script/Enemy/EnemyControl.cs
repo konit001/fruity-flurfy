@@ -20,11 +20,6 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private int contactDamage = 1;
     [SerializeField] private float contactRange = 0.8f;
 
-
-    [Header("Database (ตาราง Enemys)")]
-    [Tooltip("ชื่อแถวในตาราง Enemys — เว้นว่างไว้จะใช้ชื่อ prefab")]
-    [SerializeField] private string enemyName;
-
     private Rigidbody rb;
     private Health health;
     private Transform target;
@@ -50,6 +45,7 @@ public class EnemyControl : MonoBehaviour
 
     void HandleDeath()
     {
+        GameSaver.RunKills++;
         if (GameSession.IsLoggedIn)
             new PlayerRepository(DbProvider.Connection).AddKills(GameSession.PlayerId, 1);
         AchievementTracker.EvaluateKills();

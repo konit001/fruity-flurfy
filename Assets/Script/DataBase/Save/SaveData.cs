@@ -14,4 +14,5 @@ public class SaveData
 
     public int Wave { get; set; } = 1;
     public int Gold { get; set; } = 0;
+    public int Kill { get; set; } = 0;
 }

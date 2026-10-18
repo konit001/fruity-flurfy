@@ -11,7 +11,7 @@ public class SaveRepository
         db.CreateTable<SaveData>();
     }
 
-    public void Save(int playerId, string sceneName, int wave, int gold)
+    public void Save(int playerId, string sceneName, int wave, int gold, int kill = 0)
     {
         db.RunInTransaction(() =>
         {
@@ -22,7 +22,8 @@ public class SaveRepository
                 PlayerId = playerId,
                 SceneName = sceneName,
                 Wave = wave,
-                Gold = gold
+                Gold = gold,
+                Kill = kill
             };
             db.Insert(data);
         });

@@ -32,13 +32,12 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeScale == 0f) return; // หยุดตอนเลือก buff
+        if (Time.timeScale == 0f) return; 
         if (health != null && health.IsDead) return;
 
         Vector3 facing = FacingDirection();
         Transform target = FindTarget(facing);
 
-        // ไม่มีเป้าหมาย: ไม่ยิง แต่ให้ปากกระบอกชี้ทิศครึ่งวงกลม
         Vector3 aim = facing;
         if (target != null)
         {
@@ -61,7 +60,6 @@ public class PlayerAttack : MonoBehaviour
         return right ? Vector3.right : Vector3.left;
     }
 
-    // เป้าหมายในครึ่งวงกลม: ศัตรูก่อน ถ้าไม่มีศัตรูค่อยยิงต้นไม้/ทรัพยากร
     Transform FindTarget(Vector3 facing)
     {
         Transform target = Nearest(EnemyControl.All, facing);
@@ -69,7 +67,6 @@ public class PlayerAttack : MonoBehaviour
         return target;
     }
 
-    // ตัวที่ใกล้ที่สุดภายในครึ่งวงกลม (ระนาบ XZ)
     Transform Nearest(IEnumerable<Component> candidates, Vector3 facing)
     {
         Transform best = null;

@@ -59,8 +59,9 @@ public class LeaderBoard : MonoBehaviour
     {
         dbRef.Child("leaderboard")
             .OrderByChild("wave")
-            .LimitToLast(100)
-            .GetValueAsync().ContinueWithOnMainThread(task =>
+            .LimitToFirst(5)
+            .GetValueAsync()
+            .ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted || task.IsCanceled)
             {
@@ -78,7 +79,7 @@ public class LeaderBoard : MonoBehaviour
                     (long)child.Child("wave").Value));
             }
 
-            list.Sort((a, b) => b.s.CompareTo(a.s));
+            list.Sort((a, b) => a.s.CompareTo(b.s));
 
             string names = "";
             string waves = "";
@@ -94,3 +95,4 @@ public class LeaderBoard : MonoBehaviour
         });
     }
 }
+

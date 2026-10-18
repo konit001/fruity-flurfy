@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006286823bdbc854f99a5e5d13c94125, type: 3}
   m_Name: Weapon_TwinSeedGun
   m_EditorClassIdentifier: 
-  id: twin_seed_gun
+  id: 10
   _Name: Twin Seed Gun
   category: 0
   _Price: 200

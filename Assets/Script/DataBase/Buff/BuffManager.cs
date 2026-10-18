@@ -20,8 +20,7 @@ public class BuffManager : MonoBehaviour
     private Action onPicked;
     private readonly Dictionary<int, int> picked = new Dictionary<int, int>();
     private PlayerBuffRepository repo;
-    private Dictionary<string, BuffRow> definitions;     // key = BuffName
-    private Dictionary<int, BuffRow> definitionsById;    // key = BuffRow.BuffId
+    private Dictionary<int, BuffData> buffsById;    // key = BuffData.id
 
     void Awake()
     {
@@ -34,17 +33,15 @@ public class BuffManager : MonoBehaviour
         LoadDefinitions();
     }
 
-    // stat/value ของ buff
     void LoadDefinitions()
     {
         repo = new PlayerBuffRepository(DbProvider.Connection);
-        repo.SeedDefinitions(buffList);
-        definitions = repo.GetDefinitions();
-        definitionsById = definitions.Values.ToDictionary(r => r.BuffId);
+        // ใช้ BuffData.id เป็น key เพื่อ map BuffId ใน DB กลับมาเป็น BuffData
+        buffsById = buffList.Where(b => b != null).ToDictionary(b => b.id);
 
         if (GameSession.IsLoggedIn)
         {
-            repo.SetupRow(GameSession.PlayerId, definitions.Values);
+            repo.SetupRow(GameSession.PlayerId, buffsById.Values);
         }
     }
 
@@ -89,13 +86,13 @@ public class BuffManager : MonoBehaviour
 
     public void Apply(BuffData buff)
     {
-        BuffRow row = definitions[buff._Name];
-        ApplyStat(row.Stat, row.Value);
-        picked[row.BuffId] = GetPickedCount(row.BuffId) + 1;
+        ApplyStat(buff.stat, buff.value);
+        // นับจำนวนครั้งที่เลือก buff นี้ในรอบนี้ (+1 ต่อการเลือกหนึ่งครั้ง)
+        picked[buff.id] = GetPickedCount(buff.id) + 1;
 
         if (GameSession.IsLoggedIn)
         {
-            repo.AddPick(GameSession.PlayerId, row);
+            repo.AddPick(GameSession.PlayerId, buff);
         }
 
         Debug.Log($"Buff: {buff._Name} ({buff._Description})");
@@ -120,13 +117,13 @@ public class BuffManager : MonoBehaviour
 
     public void Restore(int buffId, int quantity)
     {
-        if (!definitionsById.TryGetValue(buffId, out BuffRow row)) return;
+        if (!buffsById.TryGetValue(buffId, out BuffData buff)) return;
 
-        if (row.Stat != BuffStat.Heal)
+        if (buff.stat != BuffStat.Heal)
         {
             for (int i = 0; i < quantity; i++)
             {
-                ApplyStat(row.Stat, row.Value);
+                ApplyStat(buff.stat, buff.value);
             }
         }
         picked[buffId] = GetPickedCount(buffId) + quantity;

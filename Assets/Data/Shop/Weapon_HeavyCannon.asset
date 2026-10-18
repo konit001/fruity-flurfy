@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006286823bdbc854f99a5e5d13c94125, type: 3}
   m_Name: Weapon_HeavyCannon
   m_EditorClassIdentifier: 
-  id: heavy_cannon
+  id: 6
   _Name: Heavy Cannon
   category: 0
   _Price: 300

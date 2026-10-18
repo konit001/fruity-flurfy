@@ -16,7 +16,7 @@ public class InventorySaveUI : MonoBehaviour
 
         if (GameSession.IsLoggedIn && shopManager != null)
         {
-            repo.SetupRow(GameSession.PlayerId, shopManager.items.Where(i => i != null).Select(i => i.id));
+            repo.SetupRow(GameSession.PlayerId, shopManager.items);
         }
     }
 
@@ -24,7 +24,9 @@ public class InventorySaveUI : MonoBehaviour
     {
         if (!GameSession.IsLoggedIn || InventoryManager.Instance == null) return;
 
-        var entries = InventoryManager.Instance.All.Select(kv => (kv.Key.id, kv.Value));
+        var entries = InventoryManager.Instance.All
+            .Where(kv => kv.Key != null)
+            .Select(kv => (kv.Key, kv.Value));
         repo.SaveQuantities(GameSession.PlayerId, entries);
     }
 
@@ -34,7 +36,8 @@ public class InventorySaveUI : MonoBehaviour
 
         foreach (InventoryRow row in repo.GetActive(GameSession.PlayerId))
         {
-            ShopData item = shopManager.items.FirstOrDefault(i => i.id == row.ShopItemId);
+            // map ItemId ใน DB กลับมาเป็น ShopData ด้วย id
+            ShopData item = shopManager.items.FirstOrDefault(i => i != null && i.id == row.ItemId);
             if (item == null) continue;
 
             InventoryManager.Instance.Add(item, row.CurrentRun);

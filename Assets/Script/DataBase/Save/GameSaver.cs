@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public static class GameSaver
 {
+    // kill ของ run ปัจจุบัน (Players.Kill คือยอดสะสมตลอดชีพ)
+    public static int RunKills;
+
     public static int GetSavedWave()
     {
         if (!GameSession.IsLoggedIn) return 1;
@@ -19,7 +22,7 @@ public static class GameSaver
         int gold = MoneyManager.Instance != null ? MoneyManager.Instance.GetGold() : 0;
 
         new PlayerRepository(db).UpdateProgress(GameSession.PlayerId, wave, gold);
-        new SaveRepository(db).Save(GameSession.PlayerId, SceneManager.GetActiveScene().name, wave, gold);
+        new SaveRepository(db).Save(GameSession.PlayerId, SceneManager.GetActiveScene().name, wave, gold, RunKills);
 
         GetOrCreate<InventorySaveUI>().Save();
         AchievementTracker.Evaluate(wave);
@@ -27,10 +30,13 @@ public static class GameSaver
 
     public static void LoadRun()
     {
+        RunKills = 0;
         if (!GameSession.IsLoggedIn) return;
 
         SaveData save = new SaveRepository(DbProvider.Connection).Load(GameSession.PlayerId);
         if (save == null) return;
+
+        RunKills = save.Kill;
 
         if (MoneyManager.Instance != null) MoneyManager.Instance.SetGold(save.Gold);
 
@@ -40,6 +46,8 @@ public static class GameSaver
 
     public static void SaveOnDeath(int wave)
     {
+        int runKills = RunKills; // ใช้ส่งต่อ run history / หน้าสรุป ก่อนรีเซ็ต
+        RunKills = 0;
         if (!GameSession.IsLoggedIn) return;
 
         var db = DbProvider.Connection;
@@ -51,7 +59,9 @@ public static class GameSaver
         GetOrCreate<InventorySaveUI>().ResetRun();
         new PlayerBuffRepository(db).ResetRun(GameSession.PlayerId);
         AchievementTracker.Evaluate(wave);
+        #if !UNITY_WEBGL
         LeaderBoard.SubmitWave(playerRepo.GetById(GameSession.PlayerId).Name, wave);
+        #endif
     }
 
     private static T GetOrCreate<T>() where T : MonoBehaviour

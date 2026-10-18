@@ -6,7 +6,7 @@ public enum BuffStat { Damage, FireRate, BulletSpeed, MultiShot, Range, MoveSpee
 public class BuffData : ScriptableObject
 {
     [Header("Info")]
-    public string id;
+    public int id;
     public string _Name;
     public Sprite _Icon;
     [TextArea(3, 6)]
@@ -15,4 +15,5 @@ public class BuffData : ScriptableObject
     [Header("Buff Type")]
     public BuffStat stat;
     public float value;
+
 }

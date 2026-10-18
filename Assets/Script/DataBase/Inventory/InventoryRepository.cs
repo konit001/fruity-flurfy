@@ -10,9 +10,24 @@ public class InventoryRepository
     public InventoryRepository(SQLiteConnection connection)
     {
         db = connection;
+        // สร้างเพื่อให้ได้ composite PK ก่อน CreateTable
+        db.Execute(@"CREATE TABLE IF NOT EXISTS Inventory (
+            PlayerId   INTEGER NOT NULL,
+            ItemId     INTEGER NOT NULL,
+            PlayerName VARCHAR(50),
+            ItemName   VARCHAR(50),
+            CurrentRun INTEGER NOT NULL DEFAULT 0,
+            AllRun     INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY (PlayerId, ItemId))");
         db.CreateTable<InventoryRow>();
     }
 
+    private string GetPlayerName(int playerId)
+    {
+        return db.Find<Players>(playerId)?.Name;
+    }
+
+    //  Inventory table
     public List<InventoryRow> GetActive(int playerId)
     {
         return db.Table<InventoryRow>().Where(r => r.PlayerId == playerId && r.CurrentRun > 0).ToList();
@@ -22,45 +37,54 @@ public class InventoryRepository
         return db.Table<InventoryRow>().Where(r => r.PlayerId == playerId).ToList();
     }
 
-    public void SetupRow(int playerId, IEnumerable<string> itemIds)
+    // สร้างแถว (0/0) ให้ไอเทมที่ผู้เล่นยังไม่มี
+    public void SetupRow(int playerId, IEnumerable<ShopData> items)
     {
         db.RunInTransaction(() =>
         {
-            var existing = GetAll(playerId).Select(r => r.ShopItemId).ToHashSet();
+            var existing = GetAll(playerId).Select(r => r.ItemId).ToHashSet();
+            var playerName = GetPlayerName(playerId);
 
-            db.InsertAll(itemIds.Distinct().Where(id => !existing.Contains(id)).Select(id => new InventoryRow
+            db.InsertAll(items.Where(i => i != null && !existing.Contains(i.id)).Select(i => new InventoryRow
             {
                 PlayerId = playerId,
-                ShopItemId = id,
+                ItemId = i.id, // ดึง id จาก ShopData มาเป็น key ใน DB
+                PlayerName = playerName,
+                ItemName = i._Name,
                 CurrentRun = 0,
                 AllRun = 0
             }));
         });
     }
 
-    public void SaveQuantities(int playerId, IEnumerable<(string ItemId, int Quantity)> entries)
+    public void SaveQuantities(int playerId, IEnumerable<(ShopData Item, int Quantity)> entries)
     {
-        var current = entries.Where(e => e.Quantity > 0).ToDictionary(e => e.ItemId, e => e.Quantity);
+        var current = entries.Where(e => e.Quantity > 0).ToDictionary(e => e.Item.id); // key = ShopData.id ใช้เทียบกับ ItemId ใน DB
 
         db.RunInTransaction(() =>
         {
-            var rows = GetAll(playerId).ToList();
+            var rows = GetAll(playerId);
 
             foreach (var row in rows)
             {
-                current.TryGetValue(row.ShopItemId, out var qty);
-                row.AllRun += Mathf.Max(0, qty - row.CurrentRun);
-                row.CurrentRun = qty;
+                int qty = current.TryGetValue(row.ItemId, out var e) ? e.Quantity : 0;
+                int gained = Mathf.Max(0, qty - row.CurrentRun);
+                
+                db.Execute("UPDATE Inventory SET CurrentRun = ?, AllRun = AllRun + ? WHERE PlayerId = ? AND ItemId = ?",
+                    qty, gained, playerId, row.ItemId);
             }
-            db.UpdateAll(rows);
 
-            var existing = rows.Select(r => r.ShopItemId).ToHashSet();
-            db.InsertAll(current.Where(p => !existing.Contains(p.Key)).Select(p => new InventoryRow
+            var existing = rows.Select(r => r.ItemId).ToHashSet();
+            var playerName = GetPlayerName(playerId);
+
+            db.InsertAll(current.Values.Where(e => !existing.Contains(e.Item.id)).Select(e => new InventoryRow
             {
                 PlayerId = playerId,
-                ShopItemId = p.Key,
-                CurrentRun = p.Value,
-                AllRun = p.Value
+                ItemId = e.Item.id, // ดึง id จาก ShopData มาเป็น key ใน DB
+                PlayerName = playerName,
+                ItemName = e.Item._Name,
+                CurrentRun = e.Quantity,
+                AllRun = e.Quantity
             }));
         });
     }

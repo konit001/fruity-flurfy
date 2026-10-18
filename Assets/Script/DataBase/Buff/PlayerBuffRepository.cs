@@ -9,72 +9,56 @@ public class PlayerBuffRepository
     public PlayerBuffRepository(SQLiteConnection connection)
     {
         db = connection;
+        // สร้างเพื่อให้ได้ composite PK ก่อน CreateTable
+        db.Execute(@"CREATE TABLE IF NOT EXISTS PlayerBuffs (
+            PlayerId   INTEGER NOT NULL,
+            BuffId     INTEGER NOT NULL,
+            PlayerName VARCHAR(50),
+            BuffName   VARCHAR(50),
+            CurrentRun INTEGER NOT NULL DEFAULT 0,
+            AllRun     INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY (PlayerId, BuffId))");
         db.CreateTable<PlayerBuffRow>();
-        db.CreateTable<BuffRow>();
     }
 
-    //  buff table
-
-    // เพิ่ม buff ใหม่ และอัปเดตค่าของ buff เดิมให้ตรงกับ BuffData
-    public void SeedDefinitions(IEnumerable<BuffData> buffs)
+    private string GetPlayerName(int playerId)
     {
-        Dictionary<string, BuffRow> existing = GetDefinitions();
-
-        foreach (BuffData buff in buffs)
-        {
-            if (existing.TryGetValue(buff._Name, out BuffRow row))
-            {
-                row.BuffName = buff._Name;
-                row.Stat = buff.stat;
-                row.Value = buff.value;
-                db.Update(row);
-            }
-            else
-            {
-                db.Insert(new BuffRow { BuffName = buff._Name, Stat = buff.stat, Value = buff.value });
-            }
-        }
-    }
-
-    // key = BuffName (ตรงกับ BuffData._Name)
-    public Dictionary<string, BuffRow> GetDefinitions()
-    {
-        return db.Table<BuffRow>().ToDictionary(r => r.BuffName);
+        return db.Find<Players>(playerId)?.Name;
     }
 
     //  PlayerBuffs table
-    public void SetupRow(int playerId, IEnumerable<BuffRow> buffs)
+    public void SetupRow(int playerId, IEnumerable<BuffData> buffs)
     {
         db.RunInTransaction(() =>
         {
             var existing = db.Table<PlayerBuffRow>().Where(r => r.PlayerId == playerId).ToList()
                 .Select(r => r.BuffId).ToHashSet();
+            var playerName = GetPlayerName(playerId);
 
-            db.InsertAll(buffs.Where(b => !existing.Contains(b.BuffId)).Select(b => new PlayerBuffRow
+            db.Execute("UPDATE PlayerBuffs SET PlayerName = ? WHERE PlayerId = ?", playerName, playerId);
+
+            db.InsertAll(buffs.Where(b => b != null && !existing.Contains(b.id)).Select(b => new PlayerBuffRow
             {
                 PlayerId = playerId,
-                BuffId = b.BuffId,
-                BuffName = b.BuffName,
+                BuffId = b.id, // ดึง id จาก BuffData มาเป็น key ใน DB
+                PlayerName = playerName,
+                BuffName = b._Name,
                 CurrentRun = 0,
                 AllRun = 0
             }));
         });
     }
 
-    public void AddPick(int playerId, BuffRow buff)
+    public void AddPick(int playerId, BuffData buff)
     {
-        PlayerBuffRow row = db.Table<PlayerBuffRow>()
-            .FirstOrDefault(row => row.PlayerId == playerId && row.BuffId == buff.BuffId);
+        var playerName = GetPlayerName(playerId);
 
-        if (row == null)
-        {
-            db.Insert(new PlayerBuffRow { PlayerId = playerId, BuffId = buff.BuffId, BuffName = buff.BuffName, CurrentRun = 1, AllRun = 1 });
-            return;
-        }
+        int updated = db.Execute(
+            "UPDATE PlayerBuffs SET CurrentRun = CurrentRun + 1, AllRun = AllRun + 1 WHERE PlayerId = ? AND BuffId = ?",
+            playerId, buff.id); // หาแถวด้วย id ของ BuffData
 
-        row.CurrentRun++;
-        row.AllRun++;
-        db.Update(row);
+        if (updated == 0)
+            db.Insert(new PlayerBuffRow { PlayerId = playerId, BuffId = buff.id, PlayerName = playerName, BuffName = buff._Name, CurrentRun = 1, AllRun = 1 });
     }
 
     // buff ของรอบปัจจุบัน

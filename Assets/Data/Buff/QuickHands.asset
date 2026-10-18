@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d5f5e2e415a46418fada857716d9a0, type: 3}
   m_Name: QuickHands
   m_EditorClassIdentifier: 
-  id: quick_hands
+  id: 4
   _Name: Quick Hands
   _Icon: {fileID: 0}
   _Description: Fire Rate +20%

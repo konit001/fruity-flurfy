@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d5f5e2e415a46418fada857716d9a0, type: 3}
   m_Name: SwiftFeet
   m_EditorClassIdentifier: 
-  id: swift_feet
+  id: 6
   _Name: Swift Feet
   _Icon: {fileID: 0}
   _Description: Move Speed +15%
